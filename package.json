@@ -1,6 +1,6 @@
 {
 	"name": "typescript-boilerplate",
-	"version": "1.0.22",
+	"version": "1.0.23",
 	"description": "boilerplate for web applications using typescript and webpack",
 	"main": "index.js",
 	"scripts": {
@@ -16,6 +16,7 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
+		"idb": "^7.0.2",
 		"lodash": "^4.17.21",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2"

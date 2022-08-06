@@ -19,6 +19,8 @@ export function App() {
 	const [onAddColumnAndRowMouseHover, setOnAddColumnAndRowMouseHover] =
 		useState<boolean>(false)
 
+	//console.log("tableDatabase", tableDatabase)
+
 	return (
 		<>
 			<div
