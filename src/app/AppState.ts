@@ -4,6 +4,7 @@ import { shallowEqual } from "./helpers/shallowEqual"
 import { useRefCurrent } from "./hooks/useRefCurrent"
 import { StateMachine } from "./StateMachine"
 import { cloneDeep } from "lodash"
+import { openDB, deleteDB, wrap, unwrap } from "idb"
 
 const initialTableData = [
 	["Chet ", "Coros"],
@@ -12,7 +13,8 @@ const initialTableData = [
 ]
 
 const tableState = {
-	tableData: initialTableData,
+	//tableData: initialTableData,
+	tableData: [[], []],
 
 	lastColumnIndex: Number(initialTableData[0].length - 1),
 	lastRowIndex: Number(initialTableData.length - 1),
@@ -94,7 +96,7 @@ const reducers = {
 		const { tableData } = tableDatabase
 
 		const currentTableState = cloneDeep(tableData)
-		currentTableState.map((item) => item.push(""))
+		currentTableState.map((item: String[]) => item.push(""))
 
 		const newLastColumnIndex = Number(currentTableState[0].length - 1)
 
@@ -110,8 +112,8 @@ const reducers = {
 	addNewRow(tableDatabase: TableData) {
 		const { tableData } = tableDatabase
 
-		const currentTableState = cloneDeep(tableData)
-		const totalColumn = tableDatabase.tableData[0].length
+		const currentTableState: any = cloneDeep(tableData)
+		const totalColumn = tableDatabase.tableData[0]?.length
 		currentTableState.push(Array(totalColumn).fill(""))
 
 		const newLastRowIndex = Number(currentTableState.length - 1)
@@ -125,9 +127,9 @@ const reducers = {
 
 	addNewRowAndColumn(tableDatabase: TableData) {
 		const { tableData } = tableDatabase
-		const currentTableState = cloneDeep(tableData)
+		const currentTableState: any = cloneDeep(tableData)
 
-		currentTableState.map((item) => item.push(""))
+		currentTableState.map((item: String[]) => item.push(""))
 
 		const totalColumn = currentTableState[0].length
 		currentTableState.push(Array(totalColumn).fill(""))
@@ -149,10 +151,17 @@ const reducers = {
 		columnIndex: number,
 		rowIndex: number
 	) {
-		const { tableData } = tableDatabase
+		const { tableData }: any = tableDatabase
 
-		tableData[rowIndex][columnIndex] = text ? text : ""
+		if (tableData) {
+			tableData[rowIndex][columnIndex] = text ? text : ""
+		}
 
+		return { ...tableDatabase }
+	},
+
+	setInitTableData(tableDatabase: TableData, tbData: any) {
+		console.log("tbData", tbData)
 		return { ...tableDatabase }
 	},
 }
